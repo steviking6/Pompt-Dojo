@@ -1,0 +1,125 @@
+[
+  {
+    "id": 1,
+    "date_reception": "2026-10-19",
+    "style": "neutre",
+    "pieges": ["date_relative"],
+    "email": "Bonjour, hier soir ma voiture a été percutée par un autre véhicule qui a grillé le feu rouge, avenue du Général Leclerc à Limoges. Personne n'est blessé, mais l'avant est enfoncé et la voiture ne démarre plus : elle a été remorquée au garage Dupuy. Le garagiste estime les réparations à 1 850 €. J'en ai besoin pour aller travailler, est-il possible d'envoyer un expert rapidement ? Nous avons rempli un constat amiable, je le joins à ce mail.\nCordialement,\nJulien Mercier – contrat auto n° AU-458712",
+    "attendu": {"type": "auto", "date": "2026-10-18", "montant": 1850.0, "urgence": "haute"}
+  },
+  {
+    "id": 2,
+    "date_reception": "2026-10-20",
+    "style": "pressé",
+    "pieges": ["sans_montant", "date_relative"],
+    "email": "URGENT !!! fuite d'eau chez moi depuis ce matin, ça coule du plafond de la salle de bain et ça commence à goutter dans le couloir. Le voisin du dessus répond pas. J'ai coupé l'eau chez moi mais ça continue. Qu'est-ce que je dois faire ?? Rappelez-moi vite svp au 06 12 34 56 78. Sarah D.",
+    "attendu": {"type": "habitation", "date": "2026-10-20", "montant": null, "urgence": "haute"}
+  },
+  {
+    "id": 3,
+    "date_reception": "2026-10-04",
+    "style": "formel",
+    "pieges": [],
+    "email": "Objet : Déclaration de sinistre – cambriolage – contrat MRH n° 2207845\n\nMadame, Monsieur,\n\nJe vous informe que mon domicile, situé 14 avenue Garibaldi à Limoges, a fait l'objet d'un cambriolage le samedi 3 octobre 2026, constaté à mon retour vers 18 h. La porte d'entrée a été fracturée ; un serrurier est intervenu en urgence pour la sécuriser provisoirement. Ont été dérobés un ordinateur portable, un téléviseur et plusieurs bijoux, pour une valeur totale que j'estime à 4 200 euros. J'ai déposé plainte au commissariat le soir même ; vous trouverez le récépissé en pièce jointe.\n\nJe reste à votre disposition pour tout complément d'information.\n\nVeuillez agréer, Madame, Monsieur, l'expression de mes salutations distinguées.\n\nBernard Fontaine",
+    "attendu": {"type": "habitation", "date": "2026-10-03", "montant": 4200.0, "urgence": "moyenne"}
+  },
+  {
+    "id": 4,
+    "date_reception": "2026-10-09",
+    "style": "fautes",
+    "pieges": ["format_date_jj_mm"],
+    "email": "bonjour jai eu un acident sur le parking du supermarché le 07/10, une dame a reculer et a toucher mon parchoc arriere. c pas grave la voiture roule nikel cest juste rayer et un peu enfoncer. le carossier ma fait un devi de 640e. on a fait un constat je vous lenvoi en photo. merci bcp",
+    "attendu": {"type": "auto", "date": "2026-10-07", "montant": 640.0, "urgence": "basse"}
+  },
+  {
+    "id": 5,
+    "date_reception": "2026-10-12",
+    "style": "pressé",
+    "pieges": ["date_relative", "montant_decimal"],
+    "email": "Pare-brise fissuré ce matin par un gravillon sur l'A20, fissure d'environ 30 cm côté conducteur. Je roule encore avec mais c'est limite. Devis du centre vitrage : 489,90 €. Vous prenez en charge ? Merci de faire vite.\nM. Rousseau, contrat AU-330918",
+    "attendu": {"type": "auto", "date": "2026-10-12", "montant": 489.9, "urgence": "moyenne"}
+  },
+  {
+    "id": 6,
+    "date_reception": "2026-10-17",
+    "style": "long_emotionnel",
+    "pieges": ["montant_a_additionner", "date_distractrice"],
+    "email": "Bonjour,\n\nJe m'appelle Jeanne Lefèvre, j'ai 78 ans et je suis assurée chez vous depuis plus de trente ans. Je vous écris parce que lors de la tempête du jeudi 15 octobre, plusieurs tuiles de mon toit se sont envolées et de l'eau est entrée dans le grenier. J'ai eu très peur, je ne savais pas qui appeler. Heureusement mon neveu est venu le lendemain et a posé une bâche, donc pour le moment il ne pleut plus à l'intérieur.\n\nLe couvreur est passé hier, il m'a fait un devis de 3 150 euros pour remplacer les tuiles, et il dit qu'une poutre de la charpente est abîmée, ce qui coûtera 420 euros de plus. Est-ce que tout cela sera remboursé ? Je ne connais rien à ces choses-là.\n\nMerci beaucoup pour votre aide.\nJeanne Lefèvre",
+    "attendu": {"type": "habitation", "date": "2026-10-15", "montant": 3570.0, "urgence": "moyenne"}
+  },
+  {
+    "id": 7,
+    "date_reception": "2026-10-22",
+    "style": "formel",
+    "pieges": [],
+    "email": "Objet : Déclaration de vol de véhicule – contrat n° AU-2026-77341\n\nMadame, Monsieur,\n\nJe vous signale le vol de mon véhicule, une citadine immatriculée AB-123-CD, survenu le 22 octobre 2026 entre 9 h et 12 h 30 sur le parking de mon lieu de travail, zone industrielle Nord à Limoges. J'ai immédiatement déposé plainte (PV n° 2026/014587, joint à ce courriel). D'après la cote argus, la valeur du véhicule est d'environ 11 500 €.\n\nJe n'ai actuellement plus aucun moyen de transport pour me rendre au travail. Mon contrat prévoit-il un véhicule de remplacement ?\n\nCordialement,\nNadia Haddad",
+    "attendu": {"type": "auto", "date": "2026-10-22", "montant": 11500.0, "urgence": "haute"}
+  },
+  {
+    "id": 8,
+    "date_reception": "2026-10-26",
+    "style": "pressé",
+    "pieges": ["sans_montant", "date_relative"],
+    "email": "Bonjour, incendie dans ma cuisine samedi dernier (une poêle d'huile qui a pris feu). Les pompiers sont intervenus, personne n'est blessé, mais la cuisine est noircie du sol au plafond et il n'y a plus d'électricité dans tout l'appartement. On dort chez ma sœur avec les enfants en attendant. Je n'ai aucune idée de ce que ça va coûter. Contrat habitation n° 552190. Merci de me rappeler au plus vite. T. Moreau",
+    "attendu": {"type": "habitation", "date": "2026-10-24", "montant": null, "urgence": "haute"}
+  },
+  {
+    "id": 9,
+    "date_reception": "2026-10-25",
+    "style": "sms",
+    "pieges": ["sans_montant", "date_relative"],
+    "email": "slt jsuis sur la route de bellac, g percuté un sanglier ya 1h. capot défoncé phare explosé et ça fume un peu sous le capot jai peur de redémarrer. moi g rien. vous menvoyez une dépanneuse ?? contrat AU-901274 merci",
+    "attendu": {"type": "auto", "date": "2026-10-25", "montant": null, "urgence": "haute"}
+  },
+  {
+    "id": 10,
+    "date_reception": "2026-10-06",
+    "style": "formel",
+    "pieges": ["montant_franchise", "date_sans_annee"],
+    "email": "Bonjour,\n\nSuite à une infiltration d'eau provenant de l'appartement situé au-dessus du mien, survenue le 2 octobre, le plafond de mon séjour présente une large auréole et la peinture s'écaille. La fuite a été réparée le jour même par le plombier de mon voisin, il n'y a plus d'écoulement depuis. Un peintre m'a remis un devis de 1 120 € TTC pour la remise en état. Si j'ai bien compris, ma franchise est de 150 €.\n\nPourriez-vous m'indiquer la marche à suivre ?\n\nBien à vous,\nKarim Benali",
+    "attendu": {"type": "habitation", "date": "2026-10-02", "montant": 1120.0, "urgence": "basse"}
+  },
+  {
+    "id": 11,
+    "date_reception": "2026-10-21",
+    "style": "familier",
+    "pieges": ["double_sinistre", "date_relative", "sans_montant"],
+    "email": "Bonjour, la poisse, deux soucis d'un coup :\n1) Hier soir en me garant j'ai accroché un poteau, l'aile avant droite est rayée sur toute la longueur. Le carrossier demande 380 €. Rien de grave, la voiture roule.\n2) En rentrant chez moi j'ai découvert que la fuite sous l'évier (qui a dû commencer lundi d'après mon coloc) a imbibé le placard et fait gonfler le parquet de la cuisine. J'ai serré le raccord mais ça goutte encore un peu. Pas encore de devis pour ça.\nJe dois faire deux déclarations séparées ou une seule suffit ? Merci, Lucas",
+    "attendu": {"type": "habitation", "date": "2026-10-19", "montant": null, "urgence": "haute"},
+    "autres_sinistres": [
+      {"type": "auto", "date": "2026-10-20", "montant": 380.0, "urgence": "basse"}
+    ]
+  },
+  {
+    "id": 12,
+    "date_reception": "2026-10-13",
+    "style": "énervé",
+    "pieges": ["ton_vs_urgence", "montant_eleve_vs_urgence"],
+    "email": "C'est la DEUXIÈME fois cette année que je vous écris !!! L'orage de grêle du dimanche 11 octobre a criblé ma voiture d'impacts, sur le toit et le capot. Elle roule, mais elle est complètement défigurée. Le débosseleur a chiffré la réparation à 2 300 €. J'espère sincèrement que ce sera traité plus vite que la dernière fois, parce que là je commence à me poser des questions sur mon assureur.\nP. Garnier, contrat AU-118265",
+    "attendu": {"type": "auto", "date": "2026-10-11", "montant": 2300.0, "urgence": "basse"}
+  },
+  {
+    "id": 13,
+    "date_reception": "2026-10-14",
+    "style": "décontracté",
+    "pieges": ["format_date_jj_mm"],
+    "email": "Hello, petit souci suite à l'orage de dimanche (11/10) : une surtension a grillé ma télé du salon. Rien d'urgent hein, j'en ai une autre dans la chambre 😅. Le réparateur dit que c'est la carte mère, ça coûterait environ 550 € à remplacer. Je vous mets la facture d'achat en PJ. Bonne journée ! Inès",
+    "attendu": {"type": "habitation", "date": "2026-10-11", "montant": 550.0, "urgence": "basse"}
+  },
+  {
+    "id": 14,
+    "date_reception": "2026-10-17",
+    "style": "formel",
+    "pieges": ["format_date_jj_mm"],
+    "email": "Madame, Monsieur,\n\nJe vous déclare un accident de la circulation survenu le 16/10/2026 à 8 h 15, au rond-point de la Bastide à Limoges. Un véhicule venant de ma gauche ne m'a pas cédé le passage et a percuté ma portière avant gauche. Mon passager a été légèrement blessé au poignet ; il a été examiné aux urgences du CHU dans la matinée. Mon véhicule, qui n'est plus en état de rouler, a été remorqué au garage de l'Aurence. Le garagiste estime le coût des réparations à 5 400 €.\n\nUn constat amiable a été rempli et signé par les deux conducteurs ; je vous le transmets en pièce jointe.\n\nDans l'attente de votre retour, je vous prie d'agréer mes salutations distinguées.\n\nClaire Vasseur – contrat auto n° AU-674120",
+    "attendu": {"type": "auto", "date": "2026-10-16", "montant": 5400.0, "urgence": "haute"}
+  },
+  {
+    "id": 15,
+    "date_reception": "2026-10-23",
+    "style": "fautes",
+    "pieges": ["date_relative"],
+    "email": "bonjour madame monsieur, jvous écrit pour le dégat des eaux de mon apart. le ballon deau chaude a lacher mardi dans le placard, ça a inonder le couloir et la chambre. le plombier a changer le ballon et un artisan ma fait un devi de 1 280 euros pour la moquette de la chambre et la peinture du couloir. la fuite est arreter mais les murs sont encore humide et ya une odeur de moisi qui commence. merci de me dire koi faire svp",
+    "attendu": {"type": "habitation", "date": "2026-10-20", "montant": 1280.0, "urgence": "moyenne"}
+  }
+]
