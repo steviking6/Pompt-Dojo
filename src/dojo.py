@@ -2,7 +2,11 @@ from pydantic import BaseModel, Field, ValidationError
 from pathlib import Path 
 from typing import Literal
 
-from importlib import import_module 
+import re
+import json
+
+from importlib import import_module
+
 
 class Sinistre(BaseModel):
     type : Literal["auto", "habitation"]
@@ -10,7 +14,7 @@ class Sinistre(BaseModel):
     montant : float | None =  Field(default=None, gt=0)   
     urgence : Literal["basse", "moyenne", "haute"]
 
-def generer(prompt:str, temperature:float, modele:str)->str:    
+def generer(prompt:str, temperature:float, modele:str = "llama3.2")->str:    
     try:
         ollama = import_module("ollama")
     except ModuleNotFoundError as exc:
@@ -25,16 +29,16 @@ def generer(prompt:str, temperature:float, modele:str)->str:
     return texte 
 
 def nettoyer_texte(texte:str)->str:
-    lignes = texte.splitlines()
     
-    if lignes and lignes[0].strip().startswith("```"):
-        lignes.pop(0)
+    match = re.search(r"\{.*\}", texte, re.DOTALL)
+    if match is None:
+        return None 
     
-    if lignes and lignes[-1].strip() == "```":
-        lignes.pop(-1)
-    
-    return "\n".join(lignes)
-        
+    try:
+        return json.loads(match.group())
+    except json.JSONDecodeError:
+        return None 
+
 
 def parser_reponse(texte:str)->Sinistre | None: 
     txt = nettoyer_texte(texte)
@@ -42,5 +46,9 @@ def parser_reponse(texte:str)->Sinistre | None:
        return Sinistre.model_validate_json(txt)
     except ValidationError:
         return None 
-    
-    
+
+def charger_prompt(version : str, dossier:Path = Path("prompts"))->str:
+    chemin = dossier / f"{version}.txt"
+    return chemin.read_text(encoding="utf-8")  
+
+def prediction(temperature=0, dossier=prompts)->str:...

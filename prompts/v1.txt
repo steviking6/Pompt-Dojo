@@ -1,0 +1,1 @@
+lis le mail de déclaration de sinistre et extrais les infos clés en JSON (type de sinistre, date, montant, urgence)

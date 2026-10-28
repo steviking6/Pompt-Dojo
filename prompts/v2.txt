@@ -1,0 +1,16 @@
+Lis le mail de déclaration de sinistre et extrais les infos clés en JSON (type de sinistre, date, montant, urgence)
+
+Exemple : 
+
+    Mail : ça commence vraiment à mettre long !! Vendredi dernier, 15 septembre, suite à l'orage un arbre est tombé sur le pare-brise de ma voiture et celui-ci s'est brisé. Je vous ai laissé un mail sans réponse de votre part, je vous relance. Les dégats sont de 1500€ d'après le garagiste.
+
+    Résultat :
+
+    {
+        "type" : "habitation"
+        "date" : "2026-09-15"
+        "montant : "1500€"
+        "urgence" : "haut"
+    }
+
+
