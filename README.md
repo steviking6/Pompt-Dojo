@@ -1,6 +1,6 @@
 # Prompt-Dojo — Tri automatique de déclarations de sinistre
 
-Évaluation et comparaison mesurée de trois stratégies de **prompt engineering** (**zero-shot**, **few-shot**, **prompt structuré**) pour extraire automatiquement les informations clés d'emails de déclaration de sinistre (`auto` / `habitation`) avec un LLM local (`llama3.2` via Ollama) et validation stricte par **Pydantic**.
+Évaluation et comparaison mesurée de trois stratégies de **prompt engineering** (**zero-shot**, **few-shot**, **prompt structuré**) et de deux architectures de modèles — un petit LLM local (**`llama3.2`** 3B via Ollama) face à un modèle *frontier* (**GPT** via API OpenAI) — pour extraire automatiquement les informations clés d'emails de déclaration de sinistre (`auto` / `habitation`) avec validation stricte par **Pydantic**.
 
 ---
 
@@ -14,7 +14,7 @@ Pour orienter automatiquement un dossier (ouverture de sinistre, missionnement d
 - `montant` : somme chiffrée des dommages en euros (`float` > 0 ou `null`)
 - `urgence` : niveau de priorité opérationnelle (`"basse"`, `"moyenne"` ou `"haute"`)
 
-**Objectif du projet** : mesurer rigoureusement, chiffres à l'appui sur un jeu de test annoté, jusqu'où le *prompt engineering* permet d'emmener un petit modèle local de 3 milliards de paramètres (`llama3.2` à `temperature=0`), et établir un verdict objectif sur son utilisabilité en assurance.
+**Objectif du projet** : mesurer rigoureusement, chiffres à l'appui sur un jeu de test annoté, jusqu'où le *prompt engineering* permet d'emmener un petit modèle local de 3 milliards de paramètres (`llama3.2`) comparé à un modèle *frontier* (`GPT`), et établir un verdict objectif sur leur utilisabilité en assurance.
 
 ---
 
@@ -25,13 +25,15 @@ Prompt-Dojo/
 ├── data/
 │   ├── GUIDE_ANNOTATION.md  # règles métier de référence pour l'annotation
 │   ├── jeu_test.json        # 15 emails de sinistre annotés avec cas pièges
-│   └── resultats.csv        # scores mesurés par version de prompt
+│   ├── resultats_llama.csv  # scores mesurés pour llama3.2 (v1, v2, v3)
+│   ├── resultats_gpt.csv    # scores mesurés pour GPT (v1, v2, v3)
+│   └── comparaison.csv      # écarts de performance entre GPT et llama3.2
 ├── prompts/
 │   ├── v1.txt               # zero-shot (consigne courte + clés attendues)
 │   ├── v2.txt               # few-shot (2 exemples hors jeu de test)
 │   └── v3.txt               # structuré (règles métier, schéma JSON, délimiteurs <email>)
 ├── src/
-│   └── dojo.py              # modèle Pydantic, nettoyage, parsing et évaluation
+│   └── dojo.py              # modèle Pydantic, nettoyage, parsing, évaluation et comparaison
 ├── tests/
 │   └── test_dojo.py         # tests unitaires pytest (sans appel au LLM)
 ├── pyproject.toml
