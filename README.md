@@ -125,6 +125,4 @@ L'ajout de règles métier explicites, de délimiteurs `<email>` et d'une consig
 
 ---
 
-## Phrase d'accroche CV
 
-> *« Classification et extraction structurée de déclarations de sinistre par LLM (`llama3.2`, Pydantic, Pytest) : exactitude par champ portée de 60 % à 70 % et taux de dossiers 100 % conformes triplé (de 13,3 % à 40,0 %) par prompt engineering mesuré. »*
