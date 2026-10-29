@@ -1,0 +1,4 @@
+version,taux_json_valide_llama,taux_json_valide_gpt,ecart_taux_json_valide (gpt-llama),taux_echec_format_llama,taux_echec_format_gpt,ecart_taux_echec_format (gpt-llama),exactitude_champs_llama,exactitude_champs_gpt,ecart_exactitude_champs (gpt-llama),exactitude_globale_llama,exactitude_globale_gpt,ecart_exactitude_globale (gpt-llama),meilleur_modele
+v1,0.867,0.933,0.066,0.133,0.067,-0.066,0.6,0.867,0.267,0.133,0.667,0.534,gpt (+53.4%)
+v2,0.0,0.933,0.933,1.0,0.067,-0.933,0.0,0.9,0.9,0.0,0.8,0.8,gpt (+80.0%)
+v3,0.933,1.0,0.067,0.067,0.0,-0.067,0.7,1.0,0.3,0.4,1.0,0.6,gpt (+60.0%)

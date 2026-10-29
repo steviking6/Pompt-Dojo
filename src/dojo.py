@@ -1,9 +1,21 @@
 import csv
 import json
-from pathlib import Path
-from typing import Literal
-
 import ollama
+import openai
+import os
+
+from pathlib import Path
+from typing import Callable, Literal
+
+from dotenv import load_dotenv, find_dotenv
+_ = load_dotenv(find_dotenv())
+
+openai.api_key = os.getenv('OPENAI_API_KEY')
+
+client = openai.OpenAI()
+
+
+
 from pydantic import BaseModel, Field, ValidationError
 
 PLACEHOLDERS = ["{email}", "{date_reception}"]
@@ -20,13 +32,23 @@ class Sinistre(BaseModel):
     urgence: Literal["basse", "moyenne", "haute"]
 
 
-def generer(prompt: str, temperature: float, modele: str = "llama3.2") -> str:
+def generer_llama(prompt: str, temperature: float, modele: str = "llama3.2") -> str:
     r = ollama.chat(
         model=modele,
         messages=[{"role": "user", "content": prompt}],
         options={"temperature": temperature},
     )
     return r["message"]["content"]
+
+def generer_gpt(prompt: str, temp: float = 1, modele: str = os.getenv('MODEL_NAME')):
+    messages = [{"role":"user", "content":prompt}]
+    reponse = client.chat.completions.create(
+        model=modele,
+        reasoning_effort= "low",
+        messages=messages,
+        temperature=1
+    )
+    return reponse.choices[0].message.content
 
 
 def nettoyer_texte(texte: str) -> str:
@@ -61,6 +83,7 @@ def predire(
     email: str,
     date_reception: str,
     temperature: float = 0,
+    generer: Callable = generer_llama,
 ) -> Sinistre | None:
     """Injecte l'email et sa date de réception, appelle le LLM, parse la réponse."""
     manquants = [p for p in PLACEHOLDERS if p not in template]
@@ -99,7 +122,11 @@ def evaluer(predit: Sinistre | None, attendu: dict) -> dict:
     }
 
 
-def evaluer_prompt(version: str, jeu_test: list[dict]) -> dict:
+def evaluer_prompt(
+    version: str,
+    jeu_test: list[dict],
+    generer: Callable = generer_llama,
+) -> dict:
     """Évalue une version de prompt sur tout le jeu de test, champ par champ."""
     template = charger_prompt(version)
     champs = list(Sinistre.model_fields)
@@ -111,7 +138,12 @@ def evaluer_prompt(version: str, jeu_test: list[dict]) -> dict:
     nb_emails_corrects = 0
 
     for cas in jeu_test:
-        sinistre = predire(template, cas["email"], cas["date_reception"])
+        sinistre = predire(
+            template,
+            cas["email"],
+            cas["date_reception"],
+            generer=generer,
+        )
         resultat = evaluer(sinistre, cas["attendu"])
 
         if not resultat["json_valide"]:
@@ -144,13 +176,80 @@ def exporter_csv(
         writer.writerows(lignes)
 
 
+def comparer_resultats_csv(
+    chemin_llama: Path = DOSSIER_DATA / "resultats_llama.csv",
+    chemin_gpt: Path = DOSSIER_DATA / "resultats_gpt.csv",
+    chemin_sortie: Path = DOSSIER_DATA / "comparaison.csv",
+) -> list[dict]:
+    """Compare les fichiers CSV des deux modèles et génère un CSV d'écarts."""
+    with open(chemin_llama, "r", encoding="utf-8") as f_llama:
+        lignes_llama = {row["version"]: row for row in csv.DictReader(f_llama)}
+
+    with open(chemin_gpt, "r", encoding="utf-8") as f_gpt:
+        lignes_gpt = {row["version"]: row for row in csv.DictReader(f_gpt)}
+
+    metriques = [
+        "taux_json_valide",
+        "taux_echec_format",
+        "exactitude_champs",
+        "exactitude_globale",
+    ]
+
+    comparaison = []
+    for version, res_llama in lignes_llama.items():
+        if version not in lignes_gpt:
+            continue
+        res_gpt = lignes_gpt[version]
+
+        ligne_comp = {"version": version}
+        for m in metriques:
+            val_llama = float(res_llama[m])
+            val_gpt = float(res_gpt[m])
+            ecart = round(val_gpt - val_llama, 3)
+
+            ligne_comp[f"{m}_llama"] = val_llama
+            ligne_comp[f"{m}_gpt"] = val_gpt
+            ligne_comp[f"ecart_{m} (gpt-llama)"] = ecart
+
+        # Déterminer le meilleur modèle sur l'exactitude globale
+        glob_llama = float(res_llama["exactitude_globale"])
+        glob_gpt = float(res_gpt["exactitude_globale"])
+        if glob_gpt > glob_llama:
+            ligne_comp["meilleur_modele"] = f"gpt (+{round((glob_gpt - glob_llama) * 100, 1)}%)"
+        elif glob_llama > glob_gpt:
+            ligne_comp["meilleur_modele"] = f"llama (+{round((glob_llama - glob_gpt) * 100, 1)}%)"
+        else:
+            ligne_comp["meilleur_modele"] = "egalite"
+
+        comparaison.append(ligne_comp)
+
+    exporter_csv(comparaison, chemin_sortie)
+    return comparaison
+
+
 if __name__ == "__main__":
     jeu_test = json.loads(
         (DOSSIER_DATA / "jeu_test.json").read_text(encoding="utf-8")
     )
-    resultats = []
-    for version in ["v1", "v2", "v3"]:
-        score = evaluer_prompt(version, jeu_test)
-        resultats.append(score)
-        print(score)
-    exporter_csv(resultats)
+
+    modeles = {
+        #"llama": generer_llama,
+        "gpt": generer_gpt,
+    }
+
+    for nom_modele, fonction_generer in modeles.items():
+        print(f"--- Évaluation du modèle : {nom_modele} ---")
+        resultats = []
+        for version in ["v1", "v2", "v3"]:
+            score = evaluer_prompt(version, jeu_test, generer=fonction_generer)
+            resultats.append(score)
+            print(score)
+        exporter_csv(resultats, DOSSIER_DATA / f"resultats_{nom_modele}.csv")
+
+    print("--- Comparaison des modèles ---")
+    resultats_comparaison = comparer_resultats_csv()
+    for ligne in resultats_comparaison:
+        print(
+            f"Version {ligne['version']} -> Meilleur : {ligne['meilleur_modele']} "
+            f"(Exactitude globale : GPT={ligne['exactitude_globale_gpt']} vs Llama={ligne['exactitude_globale_llama']})"
+        )
