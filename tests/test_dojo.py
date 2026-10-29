@@ -1,7 +1,7 @@
-"""Tests de nettoyer_texte et parser_reponse (aucun appel au LLM)."""
+"""Tests de nettoyer_texte, parser_reponse et evaluer (aucun appel au LLM)."""
 import pytest
 
-from dojo import Sinistre, nettoyer_texte, parser_reponse  # adapte si tes fonctions sont dans un autre module
+from dojo import Sinistre, evaluer, nettoyer_texte, parser_reponse
 
 # Réponse « parfaite » du LLM, réutilisée dans plusieurs tests
 JSON_VALIDE = '{"type": "auto", "date": "2026-10-18", "montant": 1850.0, "urgence": "haute"}'
@@ -36,7 +36,7 @@ def test_nettoyer_balise_fermante_manquante():
     assert nettoyer_texte(texte) == JSON_VALIDE
 
 
-@pytest.mark.parametrize("texte", "", ids=["vide", "espaces"])
+@pytest.mark.parametrize("texte", ["", "   \n  "], ids=["vide", "espaces"])
 def test_nettoyer_texte_vide_ne_plante_pas(texte):
     # Vérifie que les gardes « if lignes » évitent une IndexError
     assert nettoyer_texte(texte) == ""
@@ -98,3 +98,46 @@ def test_parser_montant_null_accepte():
 )
 def test_parser_reponse_invalide_renvoie_none(texte):
     assert parser_reponse(texte) is None
+
+
+# ---------------------------------------------------------------------------
+# evaluer
+# ---------------------------------------------------------------------------
+
+def test_evaluer_tout_correct():
+    attendu = {"type": "auto", "date": "2026-10-18", "montant": 1850.0, "urgence": "haute"}
+    predit = Sinistre(**attendu)
+    resultat = evaluer(predit, attendu)
+    assert resultat == {
+        "json_valide": True,
+        "type": True,
+        "date": True,
+        "montant": True,
+        "urgence": True,
+        "tout_correct": True,
+    }
+
+
+def test_evaluer_erreur_partielle():
+    attendu = {"type": "auto", "date": "2026-10-18", "montant": 1850.0, "urgence": "haute"}
+    predit = Sinistre(type="auto", date="2026-10-19", montant=1850.0, urgence="basse")
+    resultat = evaluer(predit, attendu)
+    assert resultat["json_valide"] is True
+    assert resultat["type"] is True
+    assert resultat["date"] is False
+    assert resultat["montant"] is True
+    assert resultat["urgence"] is False
+    assert resultat["tout_correct"] is False
+
+
+def test_evaluer_predit_none():
+    attendu = {"type": "auto", "date": "2026-10-18", "montant": 1850.0, "urgence": "haute"}
+    resultat = evaluer(None, attendu)
+    assert resultat == {
+        "json_valide": False,
+        "type": False,
+        "date": False,
+        "montant": False,
+        "urgence": False,
+        "tout_correct": False,
+    }

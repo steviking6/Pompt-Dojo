@@ -1,1 +1,10 @@
-lis le mail de déclaration de sinistre et extrais les infos clés en JSON (type de sinistre, date, montant, urgence)
+Lis le mail de déclaration de sinistre ci-dessous et extrais les informations clés uniquement au format JSON (sans texte autour) avec les clés suivantes :
+- "type" : "auto" ou "habitation"
+- "date" : date du sinistre au format "AAAA-MM-JJ" ou null
+- "montant" : montant des dommages en nombre (float) ou null
+- "urgence" : "basse", "moyenne" ou "haute"
+
+Date de réception du mail : {date_reception}
+
+Mail :
+{email}

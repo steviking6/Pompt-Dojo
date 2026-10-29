@@ -1,16 +1,18 @@
-Lis le mail de déclaration de sinistre et extrais les infos clés en JSON (type de sinistre, date, montant, urgence)
+Lis le mail de déclaration de sinistre et extrais les informations clés uniquement au format JSON (sans texte ni balises autour) avec les clés "type" ("auto" ou "habitation"), "date" ("AAAA-MM-JJ" ou null), "montant" (float ou null) et "urgence" ("basse", "moyenne" ou "haute").
 
-Exemple : 
+Exemple 1 :
+Date de réception du mail : 2026-09-18
+Mail : Ça commence vraiment à faire long !! Vendredi dernier, le 15 septembre, suite à l'orage une branche d'arbre est tombée sur le capot de ma voiture qui était garée devant chez moi. La voiture roule toujours très bien, c'est uniquement de la tôle froissée. Les dégâts sont de 1500€ d'après le carrossier.
+Résultat :
+{"type": "auto", "date": "2026-09-15", "montant": 1500.0, "urgence": "basse"}
 
-    Mail : ça commence vraiment à mettre long !! Vendredi dernier, 15 septembre, suite à l'orage un arbre est tombé sur le pare-brise de ma voiture et celui-ci s'est brisé. Je vous ai laissé un mail sans réponse de votre part, je vous relance. Les dégats sont de 1500€ d'après le garagiste.
+Exemple 2 :
+Date de réception du mail : 2026-11-05
+Mail : Bonjour, la vitre de ma baie vitrée au rez-de-chaussée vient d'être brisée lors d'une tentative d'effraction hier soir. Le salon donne directement sur la rue, je ne peux pas fermer la maison pour la nuit. Aucun devis pour l'instant, merci de m'envoyer un vitrier d'urgence.
+Résultat :
+{"type": "habitation", "date": "2026-11-04", "montant": null, "urgence": "haute"}
 
-    Résultat :
-
-    {
-        "type" : "habitation"
-        "date" : "2026-09-15"
-        "montant : "1500€"
-        "urgence" : "haut"
-    }
-
-
+Date de réception du mail : {date_reception}
+Mail :
+{email}
+Résultat :
